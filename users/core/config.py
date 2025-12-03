@@ -8,7 +8,7 @@ from pydantic_settings import (
 
 class RunConfig(BaseModel):
     host: str = "127.0.0.1"
-    port: int = 8000
+    port: int = 8001
 
 
 class ApiV1Prefix(BaseModel):
@@ -42,6 +42,7 @@ class Settings(BaseSettings):
         case_sensitive=False,
         env_nested_delimiter="__",
         env_prefix="APP_CONFIG__",
+        extra="ignore"
     )
     run: RunConfig = RunConfig()
     api: ApiPrefix = ApiPrefix()

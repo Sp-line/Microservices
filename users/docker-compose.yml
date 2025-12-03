@@ -1,0 +1,46 @@
+services:
+
+  pg:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: ${PG_DB}
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+    ports:
+      - "${PG_PORT}:5432"
+
+  fief-db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_DB: fief
+      POSTGRES_USER: fief
+      POSTGRES_PASSWORD: fief_password
+    ports:
+      - "${FIEF_DB_PORT_HOST}:5432"
+
+  fief-redis:
+    image: redis:7
+    restart: always
+
+  fief-server:
+    image: ghcr.io/fief-dev/fief:latest
+    ports:
+      - "8000:8000"
+    environment:
+      FIEF_DATABASE_URL: postgresql://${FIEF_DB_USER}:${FIEF_DB_PASSWORD}@fief-db:5432/fief
+      FIEF_REDIS_URL: redis://fief-redis:6379
+
+      FIEF_MAIN_USER_EMAIL: ${FIEF_ADMIN_EMAIL}
+      FIEF_MAIN_USER_PASSWORD: ${FIEF_ADMIN_PASSWORD}
+
+      FIEF_CLIENT_BASE_URL: ${FIEF_BASE_URL}
+
+      ENCRYPTION_KEY: ${FIEF_ENCRYPTION_KEY}
+      SECRET: ${FIEF_SECRET}
+
+      FIEF_CLIENT_ID: ${FIEF_CLIENT_ID}
+      FIEF_CLIENT_SECRET: ${FIEF_CLIENT_SECRET}
+    depends_on:
+      - fief-db
+      - fief-redis

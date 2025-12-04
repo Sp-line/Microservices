@@ -1,11 +1,13 @@
-from sqlalchemy import String, Boolean
+import uuid
+
+from sqlalchemy import String, Boolean, Uuid
 from sqlalchemy.orm import Mapped, mapped_column
 
 from core.models import Base
 
 
 class User(Base):
-    id: Mapped[str] = mapped_column(String, primary_key=True, index=True)
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, index=True)
 
     username: Mapped[str] = mapped_column(String, nullable=False, unique=True)
     avatar: Mapped[str] = mapped_column(String, nullable=True)

@@ -1,8 +1,8 @@
 """create user table
 
-Revision ID: 81a4e9c8cbce
+Revision ID: 9598bfb3451d
 Revises: 
-Create Date: 2025-12-03 12:52:03.993219
+Create Date: 2025-12-04 18:56:17.756381
 
 """
 
@@ -12,7 +12,7 @@ from alembic import op
 import sqlalchemy as sa
 
 
-revision: str = "81a4e9c8cbce"
+revision: str = "9598bfb3451d"
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -21,7 +21,7 @@ depends_on: Union[str, Sequence[str], None] = None
 def upgrade() -> None:
     op.create_table(
         "users",
-        sa.Column("id", sa.String(), nullable=False),
+        sa.Column("id", sa.Uuid(), nullable=False),
         sa.Column("username", sa.String(), nullable=False),
         sa.Column("avatar", sa.String(), nullable=True),
         sa.Column("email", sa.String(), nullable=False),

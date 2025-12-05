@@ -22,5 +22,8 @@ class UserCreate(UserBase):
 
 
 class UserUpdate(BaseModel):
+    email: EmailStr | None = None
     username: str | None = None
+    avatar: str | None = None
+    active: bool | None = None
 

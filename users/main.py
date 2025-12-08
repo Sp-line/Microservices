@@ -4,6 +4,7 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 
+from api.api_v1.exceptions import init_exception_handlers
 from core.config import settings
 
 from api import router as api_router
@@ -25,6 +26,7 @@ main_app = FastAPI(
 main_app.include_router(
     api_router,
 )
+init_exception_handlers(main_app)
 
 if __name__ == "__main__":
     uvicorn.run(

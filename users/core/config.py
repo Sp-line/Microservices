@@ -36,10 +36,17 @@ class DatabaseConfig(BaseModel):
     }
 
 
+class WebhookConfig(BaseModel):
+    created_secret: str
+    updated_secret: str
+    deleted_secret: str
+
+
 class FiefConfig(BaseModel):
     url: str = "http://localhost:8000"
     client_id: str
     client_secret: str
+    webhook: WebhookConfig
 
 
 class Settings(BaseSettings):

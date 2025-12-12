@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
-from core.exceptions.model import ObjectNotFound, ModelUniqueField
+from exceptions.model import ObjectNotFound, ModelUniqueField
 
 
 async def object_not_found_handler(request: Request, exc: ObjectNotFound) -> JSONResponse:

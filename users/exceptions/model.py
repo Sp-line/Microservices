@@ -1,7 +1,7 @@
 from typing import Any
 
-from core.models.mixins.pk_type import PKTypeModel
-from core.models.types.pk_type import PK
+from models.mixins.pk_type import PKTypeModel
+from models.types.pk_type import PK
 
 
 class ModelUniqueField(Exception):

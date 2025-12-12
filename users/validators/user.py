@@ -1,9 +1,9 @@
 from typing import Any
 
-from core.models import User
-from core.validators.base import BaseValidator, validation_check
-from core.validators.mixins.unique import UniqueMixin
-from core.validators.scenarios import UserScenario
+from models import User
+from validators.base import BaseValidator, validation_check
+from validators.mixins.unique import UniqueMixin
+from validators.scenarios import UserScenario
 
 
 class UserValidator(BaseValidator, UniqueMixin[User]):

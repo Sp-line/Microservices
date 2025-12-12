@@ -2,9 +2,9 @@ import uuid
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from core.models import User
-from core.repositories.base import RepositoryBase
-from core.schemas.user import UserCreate, UserUpdate
+from models import User
+from repositories.base import RepositoryBase
+from schemas.user import UserCreate, UserUpdate
 
 
 class UserRepository(RepositoryBase[User, UserCreate, UserUpdate, uuid.UUID]):

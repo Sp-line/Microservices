@@ -3,7 +3,7 @@ import uuid
 from sqlalchemy import String, Boolean, Uuid
 from sqlalchemy.orm import Mapped, mapped_column
 
-from core.models.mixins.pk_type import PKTypeModel
+from models.mixins.pk_type import PKTypeModel
 
 
 class User(PKTypeModel):

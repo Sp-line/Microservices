@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Mapped
 
-from core.models import Base
-from core.models.types.pk_type import PK
+from models import Base
+from models.types.pk_type import PK
 
 
 class PKTypeModel(Base):

@@ -49,6 +49,21 @@ class FiefConfig(BaseModel):
     webhook: WebhookConfig
 
 
+class UserImageConfig(BaseModel):
+    avatar_dir: str = "avatar"
+
+
+class ImageConfig(BaseModel):
+    root_dir: str = "images"
+    user: UserImageConfig = UserImageConfig()
+
+
+class FilesConfig(BaseModel):
+    image: ImageConfig = ImageConfig()
+    dir: str = "static/"
+    url: str = "http://localhost:8001/static/"
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=(".env.template", ".env"),
@@ -59,6 +74,7 @@ class Settings(BaseSettings):
     )
     run: RunConfig = RunConfig()
     api: ApiPrefix = ApiPrefix()
+    files: FilesConfig = FilesConfig()
     fief: FiefConfig
     db: DatabaseConfig
 

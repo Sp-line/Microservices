@@ -3,11 +3,13 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 
 from core.config import settings
-from core.dependencies.security import VerifyFiefSignature
-from core.dependencies.user import get_user_service
-from core.schemas.fief import FiefWebhookPayload
-from core.schemas.user import UserCreate, UserUpdate
-from core.services.user import UserService
+from dependencies.security import VerifyFiefSignature
+
+from dependencies.user import get_user_service
+from schemas.fief import FiefWebhookPayload
+
+from schemas.user import UserCreate, UserUpdate
+from services.user import UserService
 
 webhooks_router = APIRouter(prefix="/webhooks", tags=["Webhooks"])
 

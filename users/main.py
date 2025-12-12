@@ -1,14 +1,15 @@
+import os
 from contextlib import asynccontextmanager
 
 import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
-
-from api.api_v1.exceptions import init_exception_handlers
-from core.config import settings
+from fastapi.staticfiles import StaticFiles
 
 from api import router as api_router
-from core.models import db
+from api.api_v1.exceptions import init_exception_handlers
+from core.config import settings
+from models import db
 
 
 @asynccontextmanager
@@ -27,6 +28,9 @@ main_app.include_router(
     api_router,
 )
 init_exception_handlers(main_app)
+
+os.makedirs("static/avatars", exist_ok=True)
+main_app.mount("/static", StaticFiles(directory="static"), name="static")
 
 if __name__ == "__main__":
     uvicorn.run(

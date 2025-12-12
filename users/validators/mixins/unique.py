@@ -4,8 +4,8 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import InstrumentedAttribute
 
-from core.exceptions.model import ModelUniqueField
-from core.models.types.model_type import ModelType
+from exceptions.model import ModelUniqueField
+from models.types.model_type import ModelType
 
 
 class UniqueMixin(Generic[ModelType]):

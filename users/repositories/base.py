@@ -4,8 +4,8 @@ from pydantic import BaseModel
 from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from core.models.types.model_type import ModelType
-from core.models.types.pk_type import PK
+from models.types.model_type import ModelType
+from models.types.pk_type import PK
 
 PKType = TypeVar('PKType', bound=PK)
 

@@ -1,7 +1,9 @@
+import hashlib
 import hmac
 import time
-import hashlib
+
 from fastapi import Request, HTTPException, status
+
 
 class VerifyFiefSignature:
     def __init__(self, secret: str):

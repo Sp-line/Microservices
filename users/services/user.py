@@ -5,7 +5,6 @@ from fastapi import UploadFile
 from exceptions.model import ObjectNotFound
 from repositories.user import UserRepository
 from schemas.user import UserRead, UserCreate, UserUpdate
-from services.interfaces.image import AImageService
 from validators.scenarios import UserScenario
 from validators.user import UserValidator
 
@@ -36,13 +35,3 @@ class UserService:
         deleted = await self.repository.delete(user_id)
         if not deleted:
             raise ObjectNotFound(self.repository.model, user_id)
-
-
-class UserAvatarService(AImageService):
-    RESIZE_TO = (400, 400)
-
-    def get_folder_name(self, identifier: str) -> str:
-        return "avatars"
-
-    def generate_filename(self, file: UploadFile, identifier: str) -> str:
-        return "".join(c for c in identifier if c.isalnum() or c in ('-', '_'))

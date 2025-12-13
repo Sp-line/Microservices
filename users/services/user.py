@@ -1,7 +1,5 @@
 import uuid
 
-from fastapi import UploadFile
-
 from exceptions.model import ObjectNotFound
 from repositories.user import UserRepository
 from schemas.user import UserRead, UserCreate, UserUpdate

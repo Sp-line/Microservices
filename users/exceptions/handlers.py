@@ -1,9 +1,11 @@
-from fastapi import FastAPI, Request
+from fastapi import Request
 from fastapi.responses import JSONResponse
 
+from core.server import main_app
 from exceptions.model import ObjectNotFound, ModelUniqueField
 
 
+@main_app.exception_handler(ObjectNotFound)
 async def object_not_found_handler(request: Request, exc: ObjectNotFound) -> JSONResponse:
     return JSONResponse(
         status_code=404,
@@ -16,6 +18,7 @@ async def object_not_found_handler(request: Request, exc: ObjectNotFound) -> JSO
     )
 
 
+@main_app.exception_handler(ModelUniqueField)
 async def model_unique_field_handler(request: Request, exc: ModelUniqueField) -> JSONResponse:
     return JSONResponse(
         status_code=404,
@@ -27,8 +30,3 @@ async def model_unique_field_handler(request: Request, exc: ModelUniqueField) ->
             "value": exc.value,
         }
     )
-
-
-def init_exception_handlers(app: FastAPI) -> None:
-    app.add_exception_handler(ObjectNotFound, object_not_found_handler)
-    app.add_exception_handler(ModelUniqueField, model_unique_field_handler)

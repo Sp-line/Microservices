@@ -13,6 +13,7 @@ class User(PKTypeModel):
     avatar: Mapped[str] = mapped_column(String, nullable=True)
 
     email: Mapped[str] = mapped_column(String, nullable=False, unique=True)
+    email_verified: Mapped[bool] = mapped_column(Boolean, default=False)
     active: Mapped[bool] = mapped_column(Boolean, default=True)
 
     def __repr__(self):

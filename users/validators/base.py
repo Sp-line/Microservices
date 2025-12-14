@@ -1,8 +1,11 @@
 import inspect
 from enum import Enum
-from typing import Any
+from typing import Any, Annotated
 
+from fastapi.params import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
+
+from models import db
 
 
 def validation_check(*scenarios: Enum):
@@ -17,7 +20,7 @@ def validation_check(*scenarios: Enum):
 class BaseValidator:
     session: AsyncSession
 
-    def __init__(self, session: AsyncSession) -> None:
+    def __init__(self, session: Annotated[AsyncSession, Depends(db.session)]) -> None:
         self.session = session
 
     async def validate(self, data: dict[str, Any], scenario: Enum = None) -> None:

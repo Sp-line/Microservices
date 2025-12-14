@@ -4,10 +4,7 @@ from fastapi import APIRouter, Depends
 
 from core.config import settings
 from dependencies.security import VerifyFiefSignature
-
-from dependencies.user import get_user_service
 from schemas.fief import FiefWebhookPayload
-
 from schemas.user import UserCreate, UserUpdate
 from services.user import UserService
 
@@ -20,7 +17,7 @@ webhooks_router = APIRouter(prefix="/webhooks", tags=["Webhooks"])
 )
 async def fief_webhook_users_created(
         payload: FiefWebhookPayload,
-        service: Annotated[UserService, Depends(get_user_service)],
+        service: Annotated[UserService, Depends(UserService)],
 ):
     await service.create(
         UserCreate(
@@ -39,7 +36,7 @@ async def fief_webhook_users_created(
 )
 async def fief_webhook_users_updated(
         payload: FiefWebhookPayload,
-        service: Annotated[UserService, Depends(get_user_service)]
+        service: Annotated[UserService, Depends(UserService)]
 ):
     await service.update(
         payload.data.id,
@@ -56,6 +53,6 @@ async def fief_webhook_users_updated(
 )
 async def fief_webhook_users_deleted(
         payload: FiefWebhookPayload,
-        service: Annotated[UserService, Depends(get_user_service)]
+        service: Annotated[UserService, Depends(UserService)]
 ):
     await service.delete(payload.data.id)

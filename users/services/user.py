@@ -1,4 +1,7 @@
 import uuid
+from typing import Annotated
+
+from fastapi.params import Depends
 
 from exceptions.model import ObjectNotFound
 from repositories.user import UserRepository
@@ -8,7 +11,10 @@ from validators.user import UserValidator
 
 
 class UserService:
-    def __init__(self, repository: UserRepository, validator: UserValidator):
+    def __init__(self,
+                 repository: Annotated[UserRepository, Depends(UserRepository)],
+                 validator: Annotated[UserValidator, Depends(UserValidator)],
+                 ):
         self.repository = repository
         self.validator = validator
 

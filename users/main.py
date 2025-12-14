@@ -7,7 +7,7 @@ from fastapi.responses import ORJSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from api import router as api_router
-from api.api_v1.exceptions import init_exception_handlers
+from exceptions.handlers import init_exception_handlers
 from core.config import settings
 from models import db
 

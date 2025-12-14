@@ -7,6 +7,7 @@ class UserBase(BaseModel):
     id: UUID
     email: EmailStr
     username: str
+    email_verified: bool
 
 
 class UserRead(UserBase):
@@ -26,4 +27,5 @@ class UserUpdate(BaseModel):
     username: str | None = None
     avatar: str | None = None
     active: bool | None = None
+    email_verified: bool | None = None
 

@@ -26,6 +26,7 @@ async def fief_webhook_users_created(
             username=str(payload.data.email).split("@")[0],
             avatar=None,
             active=payload.data.is_active,
+            email_verified=payload.data.email_verified,
         )
     )
 
@@ -43,6 +44,7 @@ async def fief_webhook_users_updated(
         UserUpdate(
             email=payload.data.email,
             active=payload.data.is_active,
+            email_verified=payload.data.email_verified,
         )
     )
 

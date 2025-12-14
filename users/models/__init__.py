@@ -4,6 +4,6 @@ __all__ = (
     "User"
 )
 
-from .db_helper import db
+from .db import db
 from .base import Base
 from .user import User

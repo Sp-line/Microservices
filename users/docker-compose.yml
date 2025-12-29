@@ -1,5 +1,6 @@
-services:
+version: '3.8'
 
+services:
   pg:
     image: postgres:15
     environment:
@@ -8,6 +9,38 @@ services:
       POSTGRES_PASSWORD: ${PG_PASSWORD}
     ports:
       - "${PG_PORT}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${PG_USER} -d ${PG_DB}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  users:
+    build:
+      context: .
+    container_name: users_service
+    command: uvicorn main:main_app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8001:8000"
+    environment:
+      POSTGRES_HOST: pg
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${PG_DB}
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      APP_CONFIG__DB__URL: postgresql+asyncpg://${PG_USER:-user}:${PG_PASSWORD:-pwd}@pg:5432/${PG_DB:-app}
+      APP_CONFIG__FIEF__URL: http://fief-server:8000
+      APP_CONFIG__FIEF__CLIENT_ID: ${APP_CONFIG__FIEF__CLIENT_ID}
+      APP_CONFIG__FIEF__CLIENT_SECRET: ${APP_CONFIG__FIEF__CLIENT_SECRET}
+    depends_on:
+      pg:
+        condition: service_healthy
+      fief-server:
+        condition: service_started
+    volumes:
+      - .:/app
 
   fief-db:
     image: postgres:15
@@ -16,12 +49,16 @@ services:
       POSTGRES_DB: fief
       POSTGRES_USER: fief
       POSTGRES_PASSWORD: fief_password
+    volumes:
+      - fief_postgres_data:/var/lib/postgresql/data
     ports:
       - "${FIEF_DB_PORT_HOST}:5432"
 
   fief-redis:
     image: redis:7
     restart: always
+    volumes:
+      - fief_redis_data:/data
 
   fief-server:
     image: ghcr.io/fief-dev/fief:latest
@@ -30,17 +67,18 @@ services:
     environment:
       FIEF_DATABASE_URL: postgresql://${FIEF_DB_USER}:${FIEF_DB_PASSWORD}@fief-db:5432/fief
       FIEF_REDIS_URL: redis://fief-redis:6379
-
       FIEF_MAIN_USER_EMAIL: ${FIEF_ADMIN_EMAIL}
       FIEF_MAIN_USER_PASSWORD: ${FIEF_ADMIN_PASSWORD}
-
       FIEF_CLIENT_BASE_URL: ${APP_CONFIG__FIEF__URL}
-
       ENCRYPTION_KEY: ${FIEF_ENCRYPTION_KEY}
       SECRET: ${FIEF_SECRET}
-
       FIEF_CLIENT_ID: ${APP_CONFIG__FIEF__CLIENT_ID}
       FIEF_CLIENT_SECRET: ${APP_CONFIG__FIEF__CLIENT_SECRET}
     depends_on:
       - fief-db
       - fief-redis
+
+volumes:
+  postgres_data:
+  fief_postgres_data:
+  fief_redis_data:
